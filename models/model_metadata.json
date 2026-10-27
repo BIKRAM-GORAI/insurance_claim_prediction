@@ -1,0 +1,79 @@
+{
+  "selected_model": "LogisticRegression",
+  "selection_rationale": "Selected dynamically based on highest holdout accuracy (0.8995) and balanced F1 (0.8886) across 4 candidate models.",
+  "random_seed": 42,
+  "features": {
+    "numeric": [
+      "witnesses",
+      "total_claim_amount",
+      "policy_deductable",
+      "months_as_customer",
+      "number_of_vehicles_involved",
+      "incident_hour_of_the_day"
+    ],
+    "categorical": [
+      "incident_severity",
+      "police_report_available",
+      "authorities_contacted"
+    ],
+    "total_count": 9
+  },
+  "split": {
+    "method": "Deterministic grouped split on source_profile_id",
+    "train_groups": 792,
+    "holdout_groups": 197,
+    "train_rows": 4005,
+    "holdout_rows": 995
+  },
+  "performance": {
+    "cv_accuracy_mean": 0.8414481897627966,
+    "cv_accuracy_std": 0.022499636107003878,
+    "holdout_accuracy": 0.8994974874371859,
+    "holdout_balanced_accuracy": 0.8845847176079734,
+    "holdout_macro_f1": 0.8886157455916462,
+    "roc_auc": 0.9253466223698782,
+    "confusion_matrix": [
+      [
+        292,
+        58
+      ],
+      [
+        42,
+        603
+      ]
+    ],
+    "classification_report": {
+      "Approved": {
+        "precision": 0.9122541603630863,
+        "recall": 0.9348837209302325,
+        "f1-score": 0.9234303215926493,
+        "support": 645.0
+      },
+      "Rejected": {
+        "precision": 0.874251497005988,
+        "recall": 0.8342857142857143,
+        "f1-score": 0.8538011695906432,
+        "support": 350.0
+      },
+      "accuracy": 0.8994974874371859,
+      "macro avg": {
+        "precision": 0.8932528286845371,
+        "recall": 0.8845847176079734,
+        "f1-score": 0.8886157455916462,
+        "support": 995.0
+      },
+      "weighted avg": {
+        "precision": 0.8988863893329513,
+        "recall": 0.8994974874371859,
+        "f1-score": 0.8989376550592804,
+        "support": 995.0
+      }
+    }
+  },
+  "library_versions": {
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "scikit_learn": "1.9.0",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2"
+  }
+}
