@@ -57,13 +57,14 @@ This document tracks overall implementation progress, module ownership, and inte
 
 ---
 
-### Phase 2: 40% Presentation & Viva Layer (Teammate Contributions via PRs)
-- [ ] **Web Presentation Interface (Person 3):**
-  - [ ] `templates/index.html`: Responsive form containing the 9 inputs in documented order, clear USD units, disclaimer.
-  - [ ] `static/css/style.css`: Clean, modern styling, card layout, responsive design for desktop & mobile.
-  - [ ] `static/js/script.js`: Client-side validation, async `fetch('/api/predict')`, loading states, error presentation, form reset.
-- [ ] **Contract & Integration Tests (Person 4):**
-  - [ ] `tests/test_frontend_contract.py`: HTML element IDs and dropdown category value assertions.
+### Phase 2: 40% Presentation & Viva Layer (Completed)
+- [x] **Web Presentation Interface (Person 3):**
+  - [x] `templates/index.html`: Responsive form containing the 9 inputs in documented order, clear USD units, disclaimer, quick presets.
+  - [x] `static/css/style.css`: Clean, modern styling, card layout, glassmorphic design, responsive design for desktop & mobile.
+  - [x] `static/js/script.js`: Client-side validation, async `fetch('/api/predict')`, loading states, error presentation, form reset.
+- [x] **Contract & Integration Tests (Person 4):**
+  - [x] `tests/test_frontend_contract.py`: HTML element IDs and dropdown category value assertions (8 passing tests).
+  - [x] Total: 29 / 29 automated tests passing across the system.
   - [ ] Presentation slides & viva talking points outline.
 
 ---
@@ -73,5 +74,5 @@ This document tracks overall implementation progress, module ownership, and inte
 | Date | Contributor | Branch / PR | Changes Made | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | 2026-10-27 | Project Owner | `main` | Initialized Git repository, remote origin, `.gitignore`, `requirements.txt`, data audit, `train_models.py` (with 4 models & dynamic selection), `app.py`, 21 unit tests, report outputs & figures, and `Insurance_Claim_Analysis.ipynb`. | **Completed (Phase 1 / 60% Backend)** |
+| 2026-10-29 | Frontend Contributor | `feature/frontend` | Implemented `templates/index.html`, `static/css/style.css`, `static/js/script.js`, and `tests/test_frontend_contract.py` (8 contract tests passing). | **Completed (Phase 2 Presentation)** |
 
-*(Collaborators should append their logs here when raising PRs)*

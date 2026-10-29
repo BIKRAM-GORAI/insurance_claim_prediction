@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ClaimGuard AI — Intelligent automotive insurance claim prediction powered by supervised machine learning. Fast, transparent, and accurate claim assessment.">
+  <title>ClaimGuard AI — Insurance Claim Prediction</title>
+
+  <!-- Fonts: Inter (body) + Geist Mono (code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons (CDN) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- GSAP + ScrollTrigger (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- NAVIGATION                                                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-brand">
+        <div class="nav-logo">
+          <i data-lucide="shield-check"></i>
+        </div>
+        <span class="nav-brand-text">ClaimGuard<span class="accent">AI</span></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#models" class="nav-link">Models</a>
+        <a href="#predict" class="nav-link">Predict</a>
+      </div>
+      <div class="nav-actions">
+        <div class="system-status" id="systemStatusBadge" title="ML Engine Status">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="status-label" id="systemStatusText">Connecting...</span>
+        </div>
+        <a href="#predict" class="btn btn-primary btn-sm nav-cta">
+          <i data-lucide="sparkles" style="width:15px;height:15px"></i>
+          Get Prediction
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- HERO SECTION                                                -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+    <div class="hero-gradient-orb orb-top" aria-hidden="true"></div>
+    <div class="hero-gradient-orb orb-bottom" aria-hidden="true"></div>
+
+    <div class="container hero-content">
+      <div class="hero-badge anim-fade-up">
+        <i data-lucide="zap" style="width:14px;height:14px"></i>
+        <span>ML-Powered Claim Assessment Engine</span>
+      </div>
+      <h1 class="hero-title anim-fade-up">
+        Predict Insurance Claims<br>
+        <span class="hero-title-gradient">with Machine Learning</span>
+      </h1>
+      <p class="hero-subtitle anim-fade-up">
+        Enter 9 key incident attributes and get an instant, model-estimated approval score.
+        Built with scikit-learn pipelines, grouped cross-validation, and a production Flask API.
+      </p>
+      <div class="hero-actions anim-fade-up">
+        <a href="#predict" class="btn btn-primary btn-lg">
+          <i data-lucide="sparkles" style="width:18px;height:18px"></i>
+          Start Prediction
+        </a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg">
+          <i data-lucide="play-circle" style="width:18px;height:18px"></i>
+          See How It Works
+        </a>
+      </div>
+      <div class="hero-stats anim-fade-up">
+        <div class="hero-stat">
+          <span class="hero-stat-value">89.95%</span>
+          <span class="hero-stat-label">Holdout Accuracy</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">5,000</span>
+          <span class="hero-stat-label">Training Records</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">4 Models</span>
+          <span class="hero-stat-label">Compared & Evaluated</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">29 Tests</span>
+          <span class="hero-stat-label">All Passing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- DISCLAIMER BANNER                                           -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="disclaimer-section">
+    <div class="container">
+      <div class="disclaimer-card anim-fade-up">
+        <div class="disclaimer-icon-wrap">
+          <i data-lucide="info"></i>
+        </div>
+        <div class="disclaimer-body">
+          <strong>Academic Project &amp; Synthetic Policy Notice</strong>
+          <p>This system predicts outcomes under a synthetically generated underwriting dataset policy for academic evaluation only. It does not represent actual insurance company underwriting decisions or provide legally binding coverage guarantees.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FEATURES SECTION                                            -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section features-section" id="features">
+    <div class="container">
+      <div class="section-header anim-fade-up">
+        <span class="section-badge">
+          <i data-lucide="layers" style="width:14px;height:14px"></i>
+          Core Capabilities
+        </span>
+        <h2 class="section-title">Everything you need for<br><span class="text-gradient">intelligent claim assessment</span></h2>
+        <p class="section-subtitle">From data ingestion to real-time inference — a complete ML pipeline designed for transparency and accuracy.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card anim-fade-up">
+          <div class="feature-icon-wrap" style="--accent: #6366f1;">
+            <i data-lucide="brain-circuit"></i>
+          </div>
+          <h3>4-Model Comparison</h3>
+          <p>Logistic Regression, Decision Tree, Random Forest, and Gradient Boosting — all evaluated on identical holdout data with grouped cross-validation.</p>
+        </div>
+        <div class="feature-card anim-fade-up">
+          <div class="feature-icon-wrap" style="--accent: #0ea5e9;">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <h3>Zero Data Leakage</h3>
+          <p>Deterministic grouped splitting on <code>source_profile_id</code> with seed 42 ensures no related profiles leak between train and holdout partitions.</p>
+        </div>
+        <div class="feature-card anim-fade-up">
+          <div class="feature-icon-wrap" style="--accent: #10b981;">
+            <i data-lucide="check-circle-2"></i>
+          </div>
+          <h3>Strict Validation</h3>
+          <p>Multi-layer input validation — schema checks, type enforcement, categorical whitelisting, and numeric boundary guards. HTTP 400 for every violation.</p>
+        </div>
+        <div class="feature-card anim-fade-up">
+          <div class="feature-icon-wrap" style="--accent: #f59e0b;">
+            <i data-lucide="gauge"></i>
+          </div>
+          <h3>Real-Time Inference</h3>
+          <p>Serialized scikit-learn Pipeline loaded at startup. Sub-second predictions via the <code>POST /api/predict</code> endpoint with full probability scoring.</p>
+        </div>
+        <div class="feature-card anim-fade-up">
+          <div class="feature-icon-wrap" style="--accent: #8b5cf6;">
+            <i data-lucide="test-tubes"></i>
+          </div>
+          <h3>29 Automated Tests</h3>
+          <p>Data contract tests, training pipeline tests, API endpoint tests, and frontend contract tests — all passing before every deployment.</p>
+        </div>
+        <div class="feature-card anim-fade-up">
+          <div class="feature-icon-wrap" style="--accent: #ec4899;">
+            <i data-lucide="lock-keyhole"></i>
+          </div>
+          <h3>Secure by Design</h3>
+          <p>No stack trace leakage, no filesystem path exposure, forbidden-field rejection, and safe DOM rendering to prevent XSS vectors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- HOW IT WORKS SECTION                                        -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section workflow-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header anim-fade-up">
+        <span class="section-badge">
+          <i data-lucide="route" style="width:14px;height:14px"></i>
+          Pipeline Workflow
+        </span>
+        <h2 class="section-title">From raw data to<br><span class="text-gradient">instant prediction</span></h2>
+        <p class="section-subtitle">A transparent, reproducible 5-step machine learning pipeline.</p>
+      </div>
+
+      <div class="workflow-steps">
+        <div class="workflow-step anim-fade-up">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <div class="step-icon-wrap"><i data-lucide="database"></i></div>
+            <h3>Data Ingestion & Audit</h3>
+            <p>Load 5,000 cleaned records with 40 columns. Verify zero nulls, validate category levels, and confirm target distribution (60.84% Approved / 39.16% Rejected).</p>
+          </div>
+        </div>
+        <div class="workflow-connector anim-fade-up"><i data-lucide="arrow-down"></i></div>
+        <div class="workflow-step anim-fade-up">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <div class="step-icon-wrap"><i data-lucide="split"></i></div>
+            <h3>Grouped Train/Holdout Split</h3>
+            <p>Deterministic 80/20 grouped split on <code>source_profile_id</code> (seed 42). 792 train groups (4,005 rows), 197 holdout groups (995 rows). Zero overlap guaranteed.</p>
+          </div>
+        </div>
+        <div class="workflow-connector anim-fade-up"><i data-lucide="arrow-down"></i></div>
+        <div class="workflow-step anim-fade-up">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <div class="step-icon-wrap"><i data-lucide="settings-2"></i></div>
+            <h3>Preprocessing Pipeline</h3>
+            <p>ColumnTransformer with StandardScaler for 6 numeric features and OneHotEncoder for 3 categorical features. Packaged inside a single scikit-learn Pipeline — no separate artifacts.</p>
+          </div>
+        </div>
+        <div class="workflow-connector anim-fade-up"><i data-lucide="arrow-down"></i></div>
+        <div class="workflow-step anim-fade-up">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <div class="step-icon-wrap"><i data-lucide="bar-chart-3"></i></div>
+            <h3>Model Training & Selection</h3>
+            <p>5-fold GroupKFold cross-validation across 4 classifiers. Dynamic selection based on holdout accuracy, macro F1, ROC-AUC, and confusion matrix analysis.</p>
+          </div>
+        </div>
+        <div class="workflow-connector anim-fade-up"><i data-lucide="arrow-down"></i></div>
+        <div class="workflow-step anim-fade-up">
+          <div class="step-number">05</div>
+          <div class="step-content">
+            <div class="step-icon-wrap"><i data-lucide="rocket"></i></div>
+            <h3>API Deployment & Inference</h3>
+            <p>The winning pipeline is serialized to <code>.joblib</code> and served via Flask. The <code>POST /api/predict</code> endpoint validates 9 inputs, runs inference, and returns the status + approval score.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- MODEL COMPARISON SECTION                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section models-section" id="models">
+    <div class="container">
+      <div class="section-header anim-fade-up">
+        <span class="section-badge">
+          <i data-lucide="trophy" style="width:14px;height:14px"></i>
+          Model Evaluation
+        </span>
+        <h2 class="section-title">Fair comparison.<br><span class="text-gradient">Transparent selection.</span></h2>
+        <p class="section-subtitle">All four models evaluated on the exact same holdout partition — no cherry-picking.</p>
+      </div>
+
+      <div class="models-table-wrap anim-fade-up">
+        <table class="models-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>CV Accuracy</th>
+              <th>Holdout Acc</th>
+              <th>Macro F1</th>
+              <th>ROC-AUC</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="model-winner">
+              <td>
+                <div class="model-name-cell">
+                  <i data-lucide="crown" style="width:16px;height:16px;color:#f59e0b"></i>
+                  Logistic Regression
+                </div>
+              </td>
+              <td>84.14% ± 2.25%</td>
+              <td><strong>89.95%</strong></td>
+              <td>0.8886</td>
+              <td>0.9253</td>
+              <td><span class="badge badge-success"><i data-lucide="check" style="width:12px;height:12px"></i> Selected</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="model-name-cell">
+                  <i data-lucide="git-branch" style="width:16px;height:16px;color:#94a3b8"></i>
+                  Decision Tree
+                </div>
+              </td>
+              <td>82.85% ± 2.13%</td>
+              <td>84.82%</td>
+              <td>0.8407</td>
+              <td>0.8830</td>
+              <td><span class="badge badge-muted">Evaluated</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="model-name-cell">
+                  <i data-lucide="trees" style="width:16px;height:16px;color:#94a3b8"></i>
+                  Random Forest
+                </div>
+              </td>
+              <td>86.07% ± 2.65%</td>
+              <td>87.44%</td>
+              <td>0.8603</td>
+              <td>0.9336</td>
+              <td><span class="badge badge-muted">Evaluated</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="model-name-cell">
+                  <i data-lucide="trending-up" style="width:16px;height:16px;color:#94a3b8"></i>
+                  Gradient Boosting
+                </div>
+              </td>
+              <td>85.99% ± 1.81%</td>
+              <td>89.75%</td>
+              <td>0.8862</td>
+              <td>0.9439</td>
+              <td><span class="badge badge-muted">Evaluated</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- PREDICTION SECTION                                          -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section class="section predict-section" id="predict">
+    <div class="container">
+      <div class="section-header anim-fade-up">
+        <span class="section-badge">
+          <i data-lucide="sparkles" style="width:14px;height:14px"></i>
+          Live Prediction
+        </span>
+        <h2 class="section-title">Try the model<br><span class="text-gradient">right now</span></h2>
+        <p class="section-subtitle">Fill in the 9 claim attributes below to get an instant model-estimated approval score.</p>
+      </div>
+
+      <!-- Quick-fill presets -->
+      <div class="presets-bar anim-fade-up">
+        <span class="presets-label"><i data-lucide="wand-2" style="width:14px;height:14px"></i> Quick Demo:</span>
+        <button type="button" class="btn btn-ghost btn-xs" id="btnFillApproved">
+          <i data-lucide="check-circle" style="width:14px;height:14px;color:#10b981"></i>
+          Sample Approved
+        </button>
+        <button type="button" class="btn btn-ghost btn-xs" id="btnFillRejected">
+          <i data-lucide="x-circle" style="width:14px;height:14px;color:#ef4444"></i>
+          Sample Rejected
+        </button>
+        <button type="button" class="btn btn-ghost btn-xs" id="btnReset">
+          <i data-lucide="rotate-ccw" style="width:14px;height:14px"></i>
+          Reset All
+        </button>
+      </div>
+
+      <div class="predict-layout">
+        <!-- Form Side -->
+        <form id="claimPredictionForm" class="predict-form anim-fade-up" novalidate>
+
+          <!-- Card: Incident Details -->
+          <div class="form-card">
+            <div class="form-card-header">
+              <i data-lucide="alert-triangle" style="width:18px;height:18px"></i>
+              <h3>Incident Details</h3>
+            </div>
+            <div class="form-card-grid">
+              <!-- 1. incident_severity -->
+              <div class="field-group">
+                <label for="incident_severity" class="field-label">
+                  Incident Severity <span class="field-required">*</span>
+                </label>
+                <div class="select-wrap">
+                  <select id="incident_severity" name="incident_severity" required>
+                    <option value="" disabled selected>Select severity level</option>
+                    <option value="Trivial Damage">Trivial Damage</option>
+                    <option value="Minor Damage">Minor Damage</option>
+                    <option value="Major Damage">Major Damage</option>
+                    <option value="Total Loss">Total Loss</option>
+                  </select>
+                  <i data-lucide="chevron-down" class="select-chevron"></i>
+                </div>
+                <span class="field-hint">Assessed physical damage scale of the incident</span>
+              </div>
+              <!-- 3. authorities_contacted -->
+              <div class="field-group">
+                <label for="authorities_contacted" class="field-label">
+                  Authorities Contacted <span class="field-required">*</span>
+                </label>
+                <div class="select-wrap">
+                  <select id="authorities_contacted" name="authorities_contacted" required>
+                    <option value="" disabled selected>Select responder</option>
+                    <option value="Police">Police</option>
+                    <option value="Fire">Fire</option>
+                    <option value="Ambulance">Ambulance</option>
+                    <option value="Other">Other</option>
+                    <option value="None Contacted">None Contacted</option>
+                  </select>
+                  <i data-lucide="chevron-down" class="select-chevron"></i>
+                </div>
+                <span class="field-hint">Emergency services dispatched to scene</span>
+              </div>
+              <!-- 4. witnesses -->
+              <div class="field-group">
+                <label for="witnesses" class="field-label">
+                  Number of Witnesses <span class="field-required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <i data-lucide="users" class="input-icon"></i>
+                  <input type="number" id="witnesses" name="witnesses" min="0" max="3" step="1" placeholder="0 – 3" required>
+                </div>
+                <span class="field-hint">Independent eyewitnesses (0 to 3)</span>
+              </div>
+              <!-- 8. number_of_vehicles_involved -->
+              <div class="field-group">
+                <label for="number_of_vehicles_involved" class="field-label">
+                  Vehicles Involved <span class="field-required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <i data-lucide="car" class="input-icon"></i>
+                  <input type="number" id="number_of_vehicles_involved" name="number_of_vehicles_involved" min="1" max="4" step="1" placeholder="1 – 4" required>
+                </div>
+                <span class="field-hint">Number of vehicles in the accident (1 to 4)</span>
+              </div>
+              <!-- 9. incident_hour_of_the_day -->
+              <div class="field-group">
+                <label for="incident_hour_of_the_day" class="field-label">
+                  Incident Hour <span class="field-required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <i data-lucide="clock" class="input-icon"></i>
+                  <input type="number" id="incident_hour_of_the_day" name="incident_hour_of_the_day" min="0" max="23" step="1" placeholder="0 – 23" required>
+                </div>
+                <span class="field-hint">24-hour time of incident (0 = Midnight, 23 = 11 PM)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Policy & Financial -->
+          <div class="form-card">
+            <div class="form-card-header">
+              <i data-lucide="file-text" style="width:18px;height:18px"></i>
+              <h3>Policy &amp; Financial</h3>
+            </div>
+            <div class="form-card-grid">
+              <!-- 2. police_report_available -->
+              <div class="field-group">
+                <label for="police_report_available" class="field-label">
+                  Police Report Available <span class="field-required">*</span>
+                </label>
+                <div class="select-wrap">
+                  <select id="police_report_available" name="police_report_available" required>
+                    <option value="" disabled selected>Select status</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="Unknown">Unknown</option>
+                  </select>
+                  <i data-lucide="chevron-down" class="select-chevron"></i>
+                </div>
+                <span class="field-hint">Official police documentation filed</span>
+              </div>
+              <!-- 6. policy_deductable -->
+              <div class="field-group">
+                <label for="policy_deductable" class="field-label">
+                  Policy Deductible <span class="field-required">*</span>
+                </label>
+                <div class="select-wrap">
+                  <select id="policy_deductable" name="policy_deductable" required>
+                    <option value="" disabled selected>Select deductible</option>
+                    <option value="500">$500</option>
+                    <option value="1000">$1,000</option>
+                    <option value="2000">$2,000</option>
+                  </select>
+                  <i data-lucide="chevron-down" class="select-chevron"></i>
+                </div>
+                <span class="field-hint">Customer's contractual deductible amount</span>
+              </div>
+              <!-- 5. total_claim_amount -->
+              <div class="field-group field-full">
+                <label for="total_claim_amount" class="field-label">
+                  Total Claim Amount (USD) <span class="field-required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <i data-lucide="dollar-sign" class="input-icon"></i>
+                  <input type="number" id="total_claim_amount" name="total_claim_amount" min="98" max="116602" step="0.01" placeholder="e.g. 45,000.00" required>
+                </div>
+                <span class="field-hint">Total reimbursement requested — Supported range: $98.00 – $116,602.00</span>
+              </div>
+              <!-- 7. months_as_customer -->
+              <div class="field-group">
+                <label for="months_as_customer" class="field-label">
+                  Months as Customer <span class="field-required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <i data-lucide="calendar-days" class="input-icon"></i>
+                  <input type="number" id="months_as_customer" name="months_as_customer" min="0" max="479" step="1" placeholder="0 – 479" required>
+                </div>
+                <span class="field-hint">Customer loyalty tenure (0 to 479 months ≈ 40 yrs)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-lg btn-submit" id="btnPredict">
+            <span class="btn-content">
+              <i data-lucide="sparkles" style="width:18px;height:18px"></i>
+              <span class="btn-text">Predict Claim Status</span>
+            </span>
+            <span class="btn-loader">
+              <span class="spinner-ring"></span>
+              Analyzing...
+            </span>
+          </button>
+        </form>
+
+        <!-- Result Side -->
+        <div class="result-panel anim-fade-up" id="resultContainer">
+
+          <!-- Initial / Empty State -->
+          <div class="result-state active" id="stateInitial">
+            <div class="empty-visual">
+              <div class="empty-icon-ring">
+                <i data-lucide="scan-search"></i>
+              </div>
+            </div>
+            <h3>Awaiting Submission</h3>
+            <p>Complete the claim intake form and hit <strong>"Predict Claim Status"</strong> to generate a real-time ML inference.</p>
+          </div>
+
+          <!-- Loading State -->
+          <div class="result-state" id="stateLoading">
+            <div class="loading-visual">
+              <div class="pulse-ring"></div>
+              <i data-lucide="brain-circuit" class="loading-brain-icon"></i>
+            </div>
+            <h3>Running Pipeline...</h3>
+            <p>Validating schema, preprocessing features, and computing model probabilities.</p>
+          </div>
+
+          <!-- Error State -->
+          <div class="result-state" id="stateError">
+            <div class="error-visual">
+              <div class="error-icon-bg">
+                <i data-lucide="alert-circle"></i>
+              </div>
+            </div>
+            <h3 id="errorTitle">Validation Error</h3>
+            <div class="error-msg-box" id="errorMessage">An error occurred.</div>
+          </div>
+
+          <!-- Success State -->
+          <div class="result-state" id="stateSuccess">
+            <!-- Decision Badge -->
+            <div class="decision-badge-wrap">
+              <div class="decision-badge" id="claimStatusBadge">
+                <i data-lucide="check-circle-2" id="decisionIcon"></i>
+                <span id="claimStatusText">Approved</span>
+              </div>
+            </div>
+
+            <!-- Approval Score Gauge -->
+            <div class="score-gauge-card">
+              <div class="score-gauge-header">
+                <span class="score-gauge-label">Model-Estimated Approval Score</span>
+                <span class="score-gauge-value" id="approvalScoreValue">0.0%</span>
+              </div>
+              <div class="score-bar-track">
+                <div class="score-bar-fill" id="approvalProgressBar"></div>
+                <div class="score-bar-marker" style="left:50%">
+                  <span class="marker-label">50%</span>
+                </div>
+              </div>
+              <div class="score-bar-legend">
+                <span class="legend-low"><i data-lucide="arrow-down-left" style="width:12px;height:12px"></i> Likely Rejected</span>
+                <span class="legend-high">Likely Approved <i data-lucide="arrow-up-right" style="width:12px;height:12px"></i></span>
+              </div>
+            </div>
+
+            <!-- Result Meta Grid -->
+            <div class="result-meta-grid">
+              <div class="result-meta-card">
+                <div class="meta-card-icon"><i data-lucide="cpu" style="width:16px;height:16px"></i></div>
+                <span class="meta-card-label">Active Model</span>
+                <span class="meta-card-value" id="modelNameValue">LogisticRegression</span>
+              </div>
+              <div class="result-meta-card">
+                <div class="meta-card-icon"><i data-lucide="network" style="width:16px;height:16px"></i></div>
+                <span class="meta-card-label">Endpoint</span>
+                <span class="meta-card-value"><code>POST /api/predict</code></span>
+              </div>
+              <div class="result-meta-card">
+                <div class="meta-card-icon"><i data-lucide="list-checks" style="width:16px;height:16px"></i></div>
+                <span class="meta-card-label">Features Used</span>
+                <span class="meta-card-value">9 Permitted Fields</span>
+              </div>
+              <div class="result-meta-card">
+                <div class="meta-card-icon"><i data-lucide="shield" style="width:16px;height:16px"></i></div>
+                <span class="meta-card-label">Leakage Guard</span>
+                <span class="meta-card-value">Grouped (Seed 42)</span>
+              </div>
+            </div>
+
+            <p class="result-footnote">
+              <i data-lucide="info" style="width:13px;height:13px"></i>
+              Score reflects the classifier's estimated posterior probability for the <code>Approved</code> class under the synthetic evaluation policy.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- FOOTER                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo"><i data-lucide="shield-check"></i></div>
+        <span class="nav-brand-text">ClaimGuard<span class="accent">AI</span></span>
+      </div>
+      <p class="footer-text">Insurance Claim Prediction System &bull; Supervised Machine Learning &bull; scikit-learn + Flask Pipeline</p>
+      <p class="footer-sub">Designed for Academic Viva, Model Evaluation &amp; Transparency &bull; &copy; 2026</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/script.js"></script>
+</body>
+</html>
