@@ -41,3 +41,8 @@ htmlcov/
 
 # Jupyter checkpoint files
 .ipynb_checkpoints/
+
+# Local temporary backups
+_backup_clean/
+*backup*/
+
