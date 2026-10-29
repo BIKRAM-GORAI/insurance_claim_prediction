@@ -9,7 +9,7 @@ This document tracks overall implementation progress, module ownership, and inte
 | Workstream | Target Share | Lead / Contributor | Current Status | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **Backend & Core ML Engine** | **60%** | Project Owner / Integrator | **Completed & Tested (100% of Phase 1)** | Data contract audit, deterministic split, model training pipeline, model serialization, Flask API routes, input validation & error handling, 21 passing automated tests, core Jupyter notebook. |
-| **Presentation & UI Layer** | **40%** | Frontend Contributor & Doc Lead | **Pending PRs from teammates** | Web presentation interface (`templates/index.html`, `style.css`, `script.js`), frontend contract test (`tests/test_frontend_contract.py`), viva slide deck/presentation outline. |
+| **Presentation & UI Layer** | **40%** | Frontend Contributor & Doc Lead | **Completed & Tested (100% of Phase 2)** | Web presentation interface (`templates/index.html`, `style.css`, `script.js`), frontend contract test (`tests/test_frontend_contract.py`), comprehensive viva QA guide (`PROJECT_WORKFLOW_AND_VIVA_QA.md`). |
 
 ---
 
@@ -65,7 +65,7 @@ This document tracks overall implementation progress, module ownership, and inte
 - [x] **Contract & Integration Tests (Person 4):**
   - [x] `tests/test_frontend_contract.py`: HTML element IDs and dropdown category value assertions (8 passing tests).
   - [x] Total: 29 / 29 automated tests passing across the system.
-  - [ ] Presentation slides & viva talking points outline.
+  - [x] Presentation slides & viva talking points outline (documented in `PROJECT_WORKFLOW_AND_VIVA_QA.md`).
 
 ---
 

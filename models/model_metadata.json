@@ -26,8 +26,8 @@
     "holdout_rows": 995
   },
   "performance": {
-    "cv_accuracy_mean": 0.8514357053682897,
-    "cv_accuracy_std": 0.02213648964724246,
+    "cv_accuracy_mean": 0.8414481897627966,
+    "cv_accuracy_std": 0.022499636107003878,
     "holdout_accuracy": 0.8994974874371859,
     "holdout_balanced_accuracy": 0.8845847176079734,
     "holdout_macro_f1": 0.8886157455916462,
@@ -71,9 +71,9 @@
     }
   },
   "library_versions": {
-    "python": "3.11.15 | packaged by Anaconda, Inc. | (main, Jun 11 2026, 15:12:53) [MSC v.1942 64 bit (AMD64)]",
-    "scikit_learn": "1.7.1",
-    "pandas": "3.0.3",
-    "numpy": "2.4.6"
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "scikit_learn": "1.9.0",
+    "pandas": "3.0.5",
+    "numpy": "2.5.2"
   }
 }
