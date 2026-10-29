@@ -196,10 +196,92 @@ def health():
     }), 200
 
 
+def compute_feature_influences(pipeline, input_df):
+    """
+    Computes genuine mathematical feature contributions for the prediction.
+    For linear models (Logistic Regression), decomposes log-odds across the 9 features.
+    """
+    try:
+        clf = pipeline.named_steps.get("classifier")
+        prep = pipeline.named_steps.get("preprocessor")
+        if clf is None or prep is None or not hasattr(clf, "coef_"):
+            return []
+
+        transformed = prep.transform(input_df)[0]
+        feature_names = prep.get_feature_names_out()
+
+        # In sklearn binary classification:
+        # Decision function is for classes_[1].
+        # For class 'Approved', direction is inverted if Approved is classes_[0].
+        classes = list(pipeline.classes_)
+        approved_idx = classes.index("Approved")
+        raw_coef = clf.coef_[0] if approved_idx == 1 else -clf.coef_[0]
+        contributions = transformed * raw_coef
+
+        field_contributions = {}
+        for fname, val in zip(feature_names, contributions):
+            if fname.startswith("num__"):
+                col = fname.replace("num__", "")
+                field_contributions[col] = field_contributions.get(col, 0.0) + float(val)
+            elif fname.startswith("cat__"):
+                for col in ["incident_severity", "police_report_available", "authorities_contacted"]:
+                    if col in fname:
+                        field_contributions[col] = field_contributions.get(col, 0.0) + float(val)
+                        break
+
+        human_labels = {
+            "police_report_available": lambda v: f"Police Report: {v}",
+            "incident_severity": lambda v: f"Damage Severity: {v}",
+            "authorities_contacted": lambda v: f"Authorities: {v}",
+            "total_claim_amount": lambda v: f"Claim Amount: ${v:,.2f}",
+            "witnesses": lambda v: f"Witnesses: {v}",
+            "months_as_customer": lambda v: f"Tenure: {v} months",
+            "policy_deductable": lambda v: f"Deductible: ${v}",
+            "number_of_vehicles_involved": lambda v: f"Vehicles: {v}",
+            "incident_hour_of_the_day": lambda v: f"Time: {v:02d}:00",
+        }
+
+        row = input_df.iloc[0]
+        results = []
+        for field, score in sorted(field_contributions.items(), key=lambda x: abs(x[1]), reverse=True):
+            raw_val = row.get(field)
+            val = raw_val.item() if hasattr(raw_val, "item") else raw_val
+            label = human_labels[field](val) if field in human_labels else f"{field}: {val}"
+
+            if field == "police_report_available":
+                explanation = "Official police report on file" if val == "YES" else ("No police report available" if val == "NO" else "Report status unconfirmed")
+            elif field == "incident_severity":
+                explanation = "Severe vehicle damage scale" if val in ["Major Damage", "Total Loss"] else "Minor / non-critical damage scale"
+            elif field == "authorities_contacted":
+                explanation = "Emergency response unit contacted" if val in ["Police", "Fire", "Ambulance"] else ("No authorities contacted" if val == "None Contacted" else "Other responders involved")
+            elif field == "total_claim_amount":
+                explanation = "High reimbursement payout requested" if score < 0 else "Moderate claim amount within profile bounds"
+            elif field == "witnesses":
+                explanation = f"{val} corroborating witness(es) on scene" if val > 0 else "Zero independent witnesses"
+            elif field == "months_as_customer":
+                explanation = f"Account history of {val} months"
+            else:
+                explanation = "Supports approval" if score > 0 else "Increases rejection risk"
+
+            results.append({
+                "field": field,
+                "label": label,
+                "value": val,
+                "contribution": round(score, 2),
+                "direction": "positive" if score > 0.05 else ("negative" if score < -0.05 else "neutral"),
+                "explanation": explanation,
+            })
+        return results
+    except Exception as e:
+        print(f"Error computing feature influences: {e}")
+        return []
+
+
 @app.route("/api/predict", methods=["POST"])
 def predict():
     """
-    Accepts 9 input features, returns model-predicted claim_status and approval_score.
+    Accepts 9 input features, returns model-predicted claim_status, approval_score,
+    and genuine mathematical feature contributions.
     """
     global model_pipeline
     if model_pipeline is None:
@@ -247,11 +329,15 @@ def predict():
         probabilities = model_pipeline.predict_proba(input_df)[0]
         approval_score = float(probabilities[approved_idx])
 
+        # Compute genuine mathematical feature influences
+        influences = compute_feature_influences(model_pipeline, input_df)
+
         return jsonify({
             "status": "success",
             "claim_status": str(predicted_class),
             "approval_score": approval_score,
             "model_name": model_name,
+            "influencing_factors": influences,
         }), 200
 
     except Exception as e:

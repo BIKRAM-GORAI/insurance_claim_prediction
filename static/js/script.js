@@ -354,6 +354,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
         modelNameValue.textContent = data.model_name || "LogisticRegression";
 
+        // Render Influencing Factors
+        const factorsList = document.getElementById("factorsList");
+        if (factorsList && Array.isArray(data.influencing_factors)) {
+          factorsList.innerHTML = "";
+          const topFactors = data.influencing_factors.slice(0, 5);
+          topFactors.forEach((factor) => {
+            const isPos = factor.direction === "positive";
+            const isNeg = factor.direction === "negative";
+            const item = document.createElement("div");
+            item.className = `factor-item ${isPos ? "factor-positive" : (isNeg ? "factor-negative" : "factor-neutral")}`;
+
+            const sign = factor.contribution > 0 ? "+" : "";
+            const iconName = isPos ? "check" : (isNeg ? "alert-circle" : "minus");
+
+            item.innerHTML = `
+              <div class="factor-main">
+                <span class="factor-badge ${isPos ? "badge-pos" : (isNeg ? "badge-neg" : "badge-neu")}">
+                  <i data-lucide="${iconName}" style="width:13px;height:13px"></i>
+                </span>
+                <div class="factor-details">
+                  <span class="factor-label">${factor.label}</span>
+                  <span class="factor-expl">${factor.explanation}</span>
+                </div>
+              </div>
+              <div class="factor-impact ${isPos ? "impact-pos" : (isNeg ? "impact-neg" : "impact-neu")}">
+                ${sign}${factor.contribution.toFixed(2)}
+              </div>
+            `;
+            factorsList.appendChild(item);
+          });
+          if (window.lucide) {
+            lucide.createIcons();
+          }
+        }
+
         showState("success");
       } else {
         // Server-side validation error
